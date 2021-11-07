@@ -1,0 +1,55 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+sensor:
+  - platform: rest
+    name: environmental temperature
+    resource: http://192.168.1.102
+    value_template: '{{value_json.temperature}}'
+    scan_interval: 300
+  - platform: rest
+    name: environmental humidity
+    resource: http://192.168.1.102
+    value_template: '{{value_json.humidity}}'
+    scan_interval: 300
+  - platform: rest
+    name: environmental co2
+    resource: http://192.168.1.102
+    value_template: '{{value_json.eco2}}'
+    scan_interval: 300
+  - platform: rest
+    name: environmental tvoc
+    resource: http://192.168.1.102
+    value_template: '{{value_json.tvoc}}'
+    scan_interval: 300
+  - platform: rest
+    name: environmental h2
+    resource: http://192.168.1.102
+    value_template: '{{value_json.h2}}'
+    scan_interval: 300
+  - platform: rest
+    name: environmental ethanol
+    resource: http://192.168.1.102
+    value_template: '{{value_json.ethanol}}'
+    scan_interval: 300
+
+influxdb:
+  host: 127.0.0.1
+  include:
+    entities:
+       - sensor.environmental_temperature
+       - sensor.environmental_humidity
+       - sensor.environmental_co2
+       - sensor.environmental_tvoc
+       - sensor.environmental_h2
+       - sensor.environmental_ethanol
